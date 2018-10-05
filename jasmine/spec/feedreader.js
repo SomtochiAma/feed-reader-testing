@@ -31,12 +31,25 @@ $(function() {
          * in the allFeeds object and ensures it has a URL defined
          * and that the URL is not empty.
          */
+        it('has each feed url defined', function() {
+            for(let feed of allFeeds) {
+                expect(feed.url).toBeDefined();
+                expect(feed.url.length).not.toBe(0);
+            }
+        });
 
 
         /* TODO: Write a test that loops through each feed
          * in the allFeeds object and ensures it has a name defined
          * and that the name is not empty.
          */
+
+        it("has each feed name defined", function() {
+            for(let feed of allFeeds) {
+                expect(feed.name).toBeDefined();
+                expect(feed.name.length).not.toBe(0);
+            }
+        });
     });
 
 
@@ -54,6 +67,26 @@ $(function() {
           * clicked and does it hide when clicked again.
           */
 
+    describe("The menu", function() {
+
+        it("is hidden", function() {
+            var body = document.querySelector("body");
+            expect(body.classList.contains('menu-hidden')).toBe(true);
+        });
+
+        it("changes visibility", function() {
+            var body = document.querySelector("body");
+            var menu = document.querySelector(".menu-icon-link");
+
+            menu.click();
+            expect(body.classList.contains('menu-hidden')).toBe(false);
+
+            menu.click();
+            expect(body.classList.contains('menu-hidden')).toBe(true);
+        })
+        
+    });
+
     /* TODO: Write a new test suite named "Initial Entries" */
 
         /* TODO: Write a test that ensures when the loadFeed
@@ -69,4 +102,42 @@ $(function() {
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
+
+    describe("Initial Entries", function() {
+        beforeEach(function(done) {
+            loadFeed(0, done);
+        });
+
+        it("is an entry in the feed", function(done) {
+            var feed = document.querySelector(".feed");
+            var entries =  feed.children;
+            expect(entries.length).not.toBe(0);
+            done();
+        });
+        
+    });
+
+    describe("New Feed Selection", function() {
+
+        var feed = document.querySelector('.feed');
+        var firstEntryText = [];
+        //var secondEntryText = [];
+
+        beforeEach(function(done) {
+            loadFeed(0);
+            Array.from(feed.children).forEach(function(entry) {
+                firstEntryText.push[entry.innerHTML];
+            });
+            loadFeed(1, done);
+        });
+
+        it("chages content", function() {
+            Array.from(feed.children).forEach(function(entry, index) {
+                //secondEntryText.push[entry.innerHTML];
+                expect(entry.innerHTML === firstEntryText[index]).toBe(false);              
+            });
+        });
+
+    });
+
 }());
